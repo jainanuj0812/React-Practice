@@ -1,5 +1,5 @@
 import React from 'react';
-import './Person.css';
+import classes from './Person.css';
 //import Radium from 'radium';
 // This will not change the state of the application, only change by container (App.js).
 const person = (props) => {
@@ -9,7 +9,7 @@ const person = (props) => {
         }
     }*/
     return (
-        <div className="Person">
+        <div className={classes.Person}>
             <p onClick={props.click}> I'm {props.name} and age is {props.age} </p>
             <p>{props.children}</p>
             <input type="text" onChange={props.changed} value={props.name}/>

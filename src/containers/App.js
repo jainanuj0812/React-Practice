@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import Person from './Person/Person';
+import classy from './App.css';
+import Person from '../components/Persons/Person/Person';
 //import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
@@ -61,20 +61,21 @@ class App extends Component {
     };
 
     render() {
-        const style = {
+        /*const style = {
             backgroundColor: 'green',
             color: 'white',
             font: 'inherit',
             border: '1px solid blue',
             padding: '8px',
             cursor: 'pointer'
-            /*':hover': {
+            /!*':hover': {
                 backgroundColor: 'lightgreen',
                 color: 'black'
-            }*/
-        };
+            }*!/
+        };*/
 
         let persons = null;
+        let btnClass = '';
         if (this.state.showPerson) {
             persons = (
                 <div>
@@ -88,8 +89,9 @@ class App extends Component {
                     })}
                 </div>
             );
+            btnClass = classy.Red;
 
-            style.backgroundColor = 'red';
+            // style.backgroundColor = 'red';
             /*style[':hover'] = {
                 backgroundColor: 'salmon',
                 color: 'black'
@@ -97,22 +99,30 @@ class App extends Component {
         }
 
         //let classes = ['red', 'bold'].join(' ');
-        let classes = [];
+        /*const classes = [];
         if (this.state.persons.length <=2) {
             classes.push('red');
         }
         if (this.state.persons.length <=1) {
             classes.push('bold');
+        }*/
+        const classes = [];
+        if (this.state.persons.length <=2) {
+            classes.push(classy.red);
+        }
+        if (this.state.persons.length <=1) {
+            classes.push(classy.bold);
         }
 
+
         return (
-            <div className="App">
+            <div className={classy.App}>
                 <h1>This is react practice application</h1>
                 <p className={classes.join(' ')}>This is Anuj Jain</p>
                 <button onClick={this.switchNameEventHandler}>Switch Name</button>{/* Don't use () to call otherwise executed on load not on click */}
                 <button onClick={this.switchNameEventHandler.bind(this, 'Ned Stark')}>Switch Name by passing value to function</button>
                 <button onClick={() => this.switchNameEventHandler('easy waala')}>Easy Waala inefficeint</button>
-                <button style={style} onClick={this.togglePersonHandler}>Toggle Person</button>
+                <button className={btnClass} onClick={this.togglePersonHandler}>Toggle Person</button>
                 {persons}
                 {/*{ this.state.showPerson ?
                     <div>
