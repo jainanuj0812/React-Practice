@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import classy from './App.css';
-import Person from '../components/Persons/Person/Person';
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 //import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
@@ -61,94 +62,17 @@ class App extends Component {
     };
 
     render() {
-        /*const style = {
-            backgroundColor: 'green',
-            color: 'white',
-            font: 'inherit',
-            border: '1px solid blue',
-            padding: '8px',
-            cursor: 'pointer'
-            /!*':hover': {
-                backgroundColor: 'lightgreen',
-                color: 'black'
-            }*!/
-        };*/
-
         let persons = null;
-        let btnClass = '';
         if (this.state.showPerson) {
             persons = (
-                <div>
-                    {this.state.persons.map((person, index) => {
-                         return <Person
-                             name={person.name}
-                             age={person.age}
-                             click={this.deletePersonHandler.bind(this, index)}
-                             key={person.id}
-                             changed={(event) => this.onChangehandler(event, person.id)}   />
-                    })}
-                </div>
+                <Persons persons={this.state.persons} clicked={this.deletePersonHandler} changed={this.onChangehandler}></Persons>
             );
-            btnClass = classy.Red;
-
-            // style.backgroundColor = 'red';
-            /*style[':hover'] = {
-                backgroundColor: 'salmon',
-                color: 'black'
-            };*/
         }
-
-        //let classes = ['red', 'bold'].join(' ');
-        /*const classes = [];
-        if (this.state.persons.length <=2) {
-            classes.push('red');
-        }
-        if (this.state.persons.length <=1) {
-            classes.push('bold');
-        }*/
-        const classes = [];
-        if (this.state.persons.length <=2) {
-            classes.push(classy.red);
-        }
-        if (this.state.persons.length <=1) {
-            classes.push(classy.bold);
-        }
-
 
         return (
             <div className={classy.App}>
-                <h1>This is react practice application</h1>
-                <p className={classes.join(' ')}>This is Anuj Jain</p>
-                <button onClick={this.switchNameEventHandler}>Switch Name</button>{/* Don't use () to call otherwise executed on load not on click */}
-                <button onClick={this.switchNameEventHandler.bind(this, 'Ned Stark')}>Switch Name by passing value to function</button>
-                <button onClick={() => this.switchNameEventHandler('easy waala')}>Easy Waala inefficeint</button>
-                <button className={btnClass} onClick={this.togglePersonHandler}>Toggle Person</button>
+                <Cockpit showPersons={this.state.showPerson} persons={this.state.persons} clicked={this.togglePersonHandler}></Cockpit>
                 {persons}
-                {/*{ this.state.showPerson ?
-                    <div>
-                        <Person
-                            name="Addi" age="25">
-
-                        </Person>
-                        <Person
-                            name="GGG" age="26">
-                            This is awesome
-                        </Person>
-                        <Person
-                            name={this.state.persons[0].name} age={this.state.persons[0].age}
-                            click={this.switchNameEventHandler.bind(this, 'Cersei')}>
-                        </Person>
-                        <Person
-                            name={this.state.persons[1].name} age={this.state.persons[1].age}
-                            changed={this.onChangehandler}>
-
-                        </Person>
-                        <Person
-                            name={this.state.persons[2].name} age={this.state.persons[2].age}>
-
-                        </Person>
-                    </div> : null
-                }*/}
             </div>
             
         );
