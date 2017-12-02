@@ -1,20 +1,51 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import classy from './App.css';
 import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
+import Aux from '../hoc/Auxo';
+import withClass from '../hoc/withClass';
 //import Radium, { StyleRoot } from 'radium';
 
-class App extends Component {
-    // State is special, if it is changes it will update the dom automatically
-    state = {
-        persons: [
-            { id: '1001', name: 'Anuj', age: 89 },
-            { id: '1002', name: 'Arya', age: 33 },
-            { id: '1003', name: 'Sam', age: 22 }
-        ],
-        otherState: 'This is non- changed state',
-        showPerson: false
-    };
+class App extends PureComponent {
+    // State is special, if it is changes it will update the dom automatically                                  
+    constructor(props) {
+        super(props);
+        console.log("===AppJS===in constructor", props);
+        this.state = {
+            persons: [
+                { id: '1001', name: 'Anuj', age: 89 },
+                { id: '1002', name: 'Arya', age: 33 },
+                { id: '1003', name: 'Sam', age: 22 }
+            ],
+            otherState: 'This is non- changed state',
+            showPerson: false,
+            toggleClickedCounter: 0
+        };
+    }
+
+    componentWillMount() {
+        console.log("===AppJS====componentWillMount====");
+    }
+
+    componentDidMount() {
+        console.log("===AppJS====componentDidMount====");
+    }
+/*
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log("====Appjs===shouldComponentUpate====", nextState);
+        //return false;
+        return nextState.persons !== this.state.persons || nextState.showPerson !== this.state.showPerson;
+    }
+*/
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log("====Appjs===componentWillUpdate====", nextProps, nextState);
+    }
+
+    componentDidUpdate() {
+        console.log("====Appjs===componentDidUpdate====");
+    }
 
     switchNameEventHandler = (newName) => {
         // Don not use this
@@ -46,10 +77,14 @@ class App extends Component {
     };
 
     togglePersonHandler = () => {
-        const doesShow = this.state.showPerson;
-        this.setState({
-            showPerson: !doesShow
-        })
+        const doesShow = this.state.showPerson; //set state called async
+        this.setState( (prevState, props) => {
+            return {
+                showPerson: !doesShow,
+                toggleClickedCounter: prevState.toggleClickedCounter +1
+            }
+
+        } );
     };
 
     deletePersonHandler = (index) => {
@@ -62,6 +97,7 @@ class App extends Component {
     };
 
     render() {
+        console.log("===AppJS===inrednder=====");
         let persons = null;
         if (this.state.showPerson) {
             persons = (
@@ -70,15 +106,15 @@ class App extends Component {
         }
 
         return (
-            <div className={classy.App}>
+            <Aux>
+                <button onClick={() => {this.setState({showPerson: true})}}>Show Person</button>
                 <Cockpit showPersons={this.state.showPerson} persons={this.state.persons} clicked={this.togglePersonHandler}></Cockpit>
                 {persons}
-            </div>
-            
+            </Aux>
         );
         //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'This is anuj jain'));
     }
 }
 
 //export default Radium(App);
-export default App;
+export default withClass(App, classy.App);
